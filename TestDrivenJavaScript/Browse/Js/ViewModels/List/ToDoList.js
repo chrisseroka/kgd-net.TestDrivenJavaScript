@@ -1,8 +1,11 @@
-﻿var Browse = Browse || {};
+﻿/// <reference path="../../../../_External/jquery-1.10.2.min.js" />
+/// <reference path="../../../../_External/knockout-3.1.0.js" />
+/// <reference path="ToDoItem.js" />
+var Browse = Browse || {};
 Browse.ViewModels = Browse.ViewModels || {};
 Browse.ViewModels.List = Browse.ViewModels.List || {};
 
-Browse.ViewModels.List.ToDoList = function () {
+Browse.ViewModels.List.ToDoList = function() {
     var self = this;
 
     self.events = {
@@ -14,8 +17,20 @@ Browse.ViewModels.List.ToDoList = function () {
 
     self.add = function(toDoItem) {
         self.items.push(toDoItem);
-    }
-
-    self.clickMarkAsDone = function () { }
-    self.clickDelete = function() {}
-}
+    };
+    var selected = ko.observableArray();
+    self.select = function(toDoItem) {
+        if (selected().indexOf(toDoItem) < 0) {
+            selected.push(toDoItem);
+        }
+    };
+    self.deleteSelected = function() {
+        var itemsToDelete = self.selected();
+        itemsToDelete.forEach(function(item) {
+            self.items.remove(item);
+        });
+    };
+    self.selected = ko.computed(function() {
+        return selected();
+    });
+};
