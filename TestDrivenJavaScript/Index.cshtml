@@ -22,18 +22,26 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="#" class="navbar-brand">Browse</a>
+                <a href="#" class="navbar-brand" data-bind="click: select(browseViewModel)">Browse</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#" class="navbar-brand">Create</a></li>
+                    <li><a href="#" class="navbar-brand" data-bind="click: select(aboutViewModel)">About</a></li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="container body-content">
-        @Html.Partial("Create/Views/Main")
-        @Html.Partial("Browse/Views/Main")
+        <!-- ko if: selectedView() == browseViewModel -->
+            <!-- ko with: browseViewModel -->
+                @Html.Partial("Browse/Views/Main")
+            <!-- /ko -->
+        <!-- /ko -->
+        <!-- ko if: selectedView() == aboutViewModel -->
+            <!-- ko with: aboutViewModel -->
+                @Html.Partial("About/Views/Main")
+            <!-- /ko -->
+        <!-- /ko -->
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
@@ -45,15 +53,15 @@
     <script type="text/javascript" src="_External/bootstrap.min.js"></script>
     
     <script src="~/Browse/Js/Services/ServerApi.js"></script>
-    <script src="~/Browse/Js/ViewModels/ToDoItem.js"></script>
-    <script src="~/Browse/Js/ViewModels/ToDoList.js"></script>
+    <script src="~/Browse/Js/ViewModels/List/ToDoItem.js"></script>
+    <script src="~/Browse/Js/ViewModels/List/ToDoList.js"></script>
+    <script src="~/Browse/Js/ViewModels/Create/ToDoCreate.js"></script>
     <script src="~/Browse/Js/ViewModels/Main.js"></script>
+    <script src="~/About/Js/ViewModels/Main.js"></script>
+    <script src="~/_Shared/Js/Main.js"></script>
 
     <script type="text/javascript">
-        var mainViewModel = {
-            browse: new Browse.ViewModels.Main(),
-        };
-        ko.applyBindings(mainViewModel);
+        ko.applyBindings(new Shared.MainViewModel());
     </script>
 </body>
 </html>

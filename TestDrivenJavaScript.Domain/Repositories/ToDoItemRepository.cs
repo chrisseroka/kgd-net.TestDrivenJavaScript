@@ -8,7 +8,12 @@ namespace TestDrivenJavaScript.Domain.Repositories
 {
     public class ToDoItemRepository
     {
-        private const string FileName = "ToDoItemRepository.txt";
+        private readonly string _basePath;
+
+        public ToDoItemRepository(string basePath)
+        {
+            _basePath = basePath;
+        }
 
         private XmlSerializer serializer;
         public XmlSerializer Serializer {
@@ -18,46 +23,58 @@ namespace TestDrivenJavaScript.Domain.Repositories
             }
         }
 
+        private string GetFilePath()
+        {
+            return System.IO.Path.Combine(this._basePath, "ToDoItemRepository.xml");
+        }
+
+        private int GenerateId()
+        {
+            return this.GetAll().DefaultIfEmpty().Max(x => x != null ? x.Id : 0) + 1;
+        }
+
         public IEnumerable<ToDoItem> GetAll()
         {
-            if (System.IO.File.Exists(FileName) == false)
+            if (System.IO.File.Exists(this.GetFilePath()) == false)
             {
                 return Enumerable.Empty<ToDoItem>();
             }
 
-            using (var inputStream = System.IO.File.OpenRead(FileName))
+            using (var inputStream = System.IO.File.OpenRead(this.GetFilePath()))
             {
-                return (ToDoItem[])this.serializer.Deserialize(inputStream);
+                return (ToDoItem[])this.Serializer.Deserialize(inputStream);
             }
         }
 
-        public void SaveAll(IEnumerable<ToDoItem> items)
+        public void SaveAll(ToDoItem[] items)
         {
-            using (var inputStream = System.IO.File.OpenWrite(FileName))
+            using (var inputStream = System.IO.File.OpenWrite(this.GetFilePath()))
             {
-                this.serializer.Serialize(inputStream, items);
+                this.Serializer.Serialize(inputStream, items);
             }
         }
 
-        public void Add(ToDoItem item)
+        public int Add(ToDoItem item)
         {
+            item.Id = this.GenerateId();
             var items = this.GetAll();
             var newItems = items.Concat(new[] {item});
-            this.SaveAll(newItems);
+            this.SaveAll(newItems.ToArray());
+            return item.Id;
         }
 
         public void Save(ToDoItem item)
         {
             var items = this.GetAll();
             var newItems = items.Where(x => x.Id != item.Id).Concat(new[] {item});
-            this.SaveAll(newItems);
+            this.SaveAll(newItems.ToArray());
         }
 
         public void Remove(ToDoItem item)
         {
             var items = this.GetAll();
             var newItems = items.Where(x => x.Id != item.Id);
-            this.SaveAll(newItems);
+            this.SaveAll(newItems.ToArray());
         }
     }
 }

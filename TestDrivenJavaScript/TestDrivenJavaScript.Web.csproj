@@ -90,12 +90,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="About\Js\ViewModels\Main.js" />
     <Content Include="Browse\Js\Services\ServerApi.js" />
+    <Content Include="Browse\Js\ViewModels\Create\ToDoCreate.js" />
     <Content Include="Browse\Js\ViewModels\Main.js" />
-    <Content Include="Browse\Js\ViewModels\ToDoList.js" />
-    <Content Include="Browse\Js\ViewModels\ToDoItem.js" />
+    <Content Include="Browse\Js\ViewModels\List\ToDoList.js" />
+    <Content Include="Browse\Js\ViewModels\List\ToDoItem.js" />
     <Content Include="_External\knockout-3.1.0.debug.js" />
     <Content Include="_External\knockout-3.1.0.js" />
+    <Content Include="_Shared\Js\Main.js" />
     <Content Include="_Shared\Styles\main.css" />
     <Content Include="_Shared\Styles\bootstrap-theme.css" />
     <Content Include="_Shared\Styles\bootstrap-theme.min.css" />
@@ -109,7 +112,7 @@
     <Content Include="_Shared\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="_Shared\Styles\bootstrap-theme.css.map" />
     <Content Include="_Shared\Styles\bootstrap.css.map" />
-    <Content Include="Create\Views\Main.cshtml" />
+    <Content Include="About\Views\Main.cshtml" />
     <None Include="_External\jquery-1.10.2.intellisense.js" />
     <Content Include="_External\bootstrap.js" />
     <Content Include="_External\bootstrap.min.js" />
@@ -125,8 +128,8 @@
     <Content Include="Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\Dto\ToDoDto.cs" />
-    <Compile Include="Api\ToDoController.cs" />
+    <Compile Include="Browse\Api\Dto\ToDoDto.cs" />
+    <Compile Include="Browse\Api\ToDoController.cs" />
     <Compile Include="DefaultController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
